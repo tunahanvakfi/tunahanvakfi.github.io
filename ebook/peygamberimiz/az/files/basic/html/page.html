@@ -1,0 +1,288 @@
+{{?it.initial.bgImage}}
+<img id="bodyBg" class="bodyBg" src="{{=it.initial.bgImage}}" alt="Background Image" />
+{{?}}
+<div class="toolbar">
+    {{? it.pagination.current.url}}
+    <ul class="zoomContainer" id="zoomContainer">
+        <li>
+            <a class="zoomInButton" id="zoomIn" href="#">
+                <img src="{{=it.initial.config.adapter.translatePath('static/basic/css/zoomIn.png')}}" alt="Zoom In" />
+            </a>
+        </li>
+        <li>
+            <a class="zoomOutButton" id="zoomOut" href="#">
+                <img src="{{=it.initial.config.adapter.translatePath('static/basic/css/zoomOut.png')}}" alt="Zoom Out" />
+            </a>
+        </li>
+    </ul>
+    {{?}}
+    <div class="toolbarButtons">
+        {{? it.tocEnabled}}
+        <a class="tocButton toolbarLink internalLink" rel="index" href="{{=it.tocUrl}}" id="tocLink">
+            <img class="iconToolbar" src="{{=it.initial.config.adapter.translatePath('static/basic/css/toc.png')}}" alt="Table of Contents" />
+            <img class="iconToolbar mobile" src="{{=it.initial.config.adapter.translatePath('static/basic/css/toc-mobile.png')}}" alt="Table of Contents" />
+            <span id="tocLabel" class="titleTOCMenu"></span>
+        </a>
+        {{?}}
+        {{?it.workspace.downloads && it.workspace.downloads.enabled && it.pagination.current.url}}
+        <ul class="downloadButton toolbarLink">
+            <li class="iconLi">
+                <img class="iconToolbar" src="{{=it.initial.config.adapter.translatePath('static/basic/css/save.png')}}" alt="Downloads" />
+                <img class="iconToolbar mobile" src="{{=it.initial.config.adapter.translatePath('static/basic/css/save-mobile.png')}}" alt="Downloads" />
+            </li>
+
+            {{?it.workspace.downloads.url}}
+            <li id="downloadPdf" class="downloadSubMenu">
+                <a id="downloadPdfLink" href="{{=it.initial.config.adapter.translatePath('assets/common/downloads/'+it.workspace.downloads.url)}}" target="_blank"></a>
+            </li>
+            {{?}}
+            {{?it.workspace.downloads.customFiles}}
+            {{~it.workspace.downloads.customFiles :userFile:index}}
+            <li class="downloadSubMenu userFile">
+                <a class="userFileLink" href="{{=it.initial.config.adapter.translatePath('assets/common/downloads/'+userFile.url)}}" target="_blank">{{=userFile.url}}</a>
+            </li>
+            {{~}}
+            {{?}}
+        </ul>
+        {{?}}
+    </div>
+    {{?it.pager.rightToLeft}}
+    {{?it.pagination.next}}
+    <a id="nextPageArrow" class="toLeftButton toolbarLink internalLink" href="{{=it.pagination.next.url}}" rel="next" title="{{=it.pagination.next.title}}"><img class="iconToolbar" src="{{=it.initial.config.adapter.translatePath('static/basic/css/previous.png')}}" alt="Next Page" /></a>
+    {{?}}
+    {{??it.pagination.current.url}}
+    {{?it.pagination.prev}}
+    <a id="prevPageArrow" class="toLeftButton toolbarLink internalLink" href="{{=it.pagination.prev.url}}" rel="prev" title="{{=it.pagination.prev.title}}"><img class="iconToolbar" src="{{=it.initial.config.adapter.translatePath('static/basic/css/previous.png')}}" alt="Previous Page" /></a>
+    {{?? it.tocEnabled}}
+    <a id="tocPageArrow" class="toLeftButton toolbarLink internalLink" href="{{=it.tocUrl}}" rel="index" title="Table of Contents"><img class="iconToolbar" src="{{=it.initial.config.adapter.translatePath('static/basic/css/previous.png')}}" alt="Table of Contents" /></a>
+
+    {{?}}
+    {{?}}
+    {{##def.totalPagesName:{{?it.pager.customTotalPages}}{{=it.pager.customTotalPages}}{{??}} / {{=it.table.getPagesCount()}}{{?}}#}}
+
+    {{?it.pagination.current.url}}
+    <span class="pager"><span id="pageLabel"></span>&nbsp;<div style="direction: ltr; display: inline-block;">{{=it.pagination.current.name}}</div> {{#def.totalPagesName}}</span>
+    {{??}}
+    <span class="pager">{{=it.workspace.title}}</span>
+    {{?}}
+    {{? !it.pager.rightToLeft}}
+    {{?it.pagination.next}}
+    <a id="nextPageArrow" class="toRightButton toolbarLink internalLink" href="{{=it.pagination.next.url}}" rel="next" title="{{=it.pagination.next.title}}"><img class="iconToolbar" src="{{=it.initial.config.adapter.translatePath('static/basic/css/next.png')}}" alt="Next Page" /></a>
+    {{?}}
+    {{?? it.pagination.current.url}}
+
+    {{?it.pagination.prev}}
+    <a id="prevPageArrow" class="toRightButton toolbarLink internalLink" href="{{=it.pagination.prev.url}}" rel="prev" title="{{=it.pagination.prev.title}}"><img class="iconToolbar" src="{{=it.initial.config.adapter.translatePath('static/basic/css/next.png')}}" alt="Previous Page" /></a>
+    {{?? it.tocEnabled}}
+    <a id="tocPageArrow" class="toRightButton toolbarLink internalLink" href="{{=it.tocUrl}}" rel="index" title="Table of Contents"><img class="iconToolbar" src="{{=it.initial.config.adapter.translatePath('static/basic/css/next.png')}}" alt="Table of Contents" /></a>
+    {{?}}
+    {{?}}
+
+    <div class="verContainer" id="verContainer">
+        <span id="basicVersionTitle" class="basicInfoTitle"></span>
+    </div>
+</div>
+{{##def.mobileButtonId:{{? (it.workspace.toc && it.workspace.toc.enabled) ||(it.workspace.components && it.workspace.components.share) || (it.workspace.downloads && it.workspace.downloads.enabled)}}mobileMenuButton{{??}}{{?}}#}}
+{{##def.mobileButtonStyle:{{? (it.workspace.toc && it.workspace.toc.enabled) ||(it.workspace.components && it.workspace.components.share) || (it.workspace.downloads && it.workspace.downloads.enabled)}}{{??}}display:none;{{?}}#}}
+<div class="mainFrame" id="mainFrame">
+    {{?it.workspace.components && it.workspace.components.share}}
+    <ul class="sharingContainer">
+        <li>
+            <a class="facebookShare" id="facebookShare" href="#" target="_blank">
+                <img src="{{=it.initial.config.adapter.translatePath('static/basic/css/facebook_32.png')}}" alt="Share on Facebook" />
+                <span id="facebookShareText" class="shareTitleMenu"></span>
+            </a>
+        </li>
+        <li>
+            <a class="twitterShare" id="twitterShare" href="#" target="_blank">
+                <img src="{{=it.initial.config.adapter.translatePath('static/basic/css/twitter_32.png')}}" alt="Tweet" />
+                <span id="twitterShareText" class="shareTitleMenu"></span>
+            </a>
+        </li>
+        <li>
+            <a class="linkedinShare" id="linkedinShare" href="#" target="_blank">
+                <img src="{{=it.initial.config.adapter.translatePath('static/basic/css/linkedin_32.png')}}" alt="Share on LinkedIn" />
+                <span id="linkedinShareText" class="shareTitleMenu"></span>
+            </a>
+        </li>
+        <li>
+            <a class="tumblrShare" id="tumblrShare" href="#" target="_blank">
+                <img src="{{=it.initial.config.adapter.translatePath('static/basic/css/tumblr_32.png')}}" alt="Share on Tumblr" />
+                <span id="tumblrShareText" class="shareTitleMenu"></span>
+            </a>
+        </li>
+        <li>
+            <a class="googleShare" id="googleShare" href="#" target="_blank">
+                <img src="{{=it.initial.config.adapter.translatePath('static/basic/css/google_32.png')}}" alt="Share on Google+" />
+                <span id="googleShareText" class="shareTitleMenu"></span>
+            </a>
+        </li>
+        <li>
+            <a class="mailShare" id="mailShare" href="#" target="_blank">
+                <img src="{{=it.initial.config.adapter.translatePath('static/basic/css/email_32.png')}}" alt="E-mail" />
+                <span id="mailShareText" class="shareTitleMenu"></span>
+            </a>
+        </li>
+        <li>
+            <a class="vkShare" id="vkShare" href="#" target="_blank">
+                <img src="{{=it.initial.config.adapter.translatePath('static/basic/css/vk_32.png')}}" alt="Share on VK" />
+                <span id="vkShareText" class="shareTitleMenu"></span>
+            </a>
+        </li>
+    </ul>
+    {{?}}
+    {{##def.mobileButtonId:{{? (it.tocEnabled) ||(it.workspace.components && it.workspace.components.share) || (it.workspace.downloads && it.workspace.downloads.enabled)}}mobileMenuButton{{??}}{{?}}#}}
+    {{##def.mobileButtonStyle:{{? (it.tocEnabled) ||(it.workspace.components && it.workspace.components.share) || (it.workspace.downloads && it.workspace.downloads.enabled)}}{{??}}display:none;{{?}}#}}
+    <a class="mobileMenuButton" id="{{#def.mobileButtonId}}">
+        <img src="{{=it.initial.config.adapter.translatePath('static/basic/css/mobile-menu.png')}}" alt="Show Menu" style="{{#def.mobileButtonStyle}}" />
+    </a>
+    <div class="mobileNav">
+        {{?it.pager.rightToLeft}}
+        {{?it.pagination.next}}
+        <a class="toLeftButton toolbarLink internalLink" rel="next" href="{{=it.pagination.next.url}}"><img class="iconToolbar" src="{{=it.initial.config.adapter.translatePath('static/basic/css/prev-mob.png')}}" alt="Next Page" /></a>
+        {{?}}
+        {{??}}
+        {{?it.pagination.prev}}
+        <a class="toLeftButton toolbarLink internalLink" rel="prev" href="{{=it.pagination.prev.url}}"><img class="iconToolbar" src="{{=it.initial.config.adapter.translatePath('static/basic/css/prev-mob.png')}}" alt="Previous Page" /></a>
+        {{?}}
+        {{?}}
+        {{?it.pagination.current.url}}
+        <span class="pager">{{=it.pagination.current.name}} {{#def.totalPagesName}}</span>
+        {{?}}
+
+        {{?it.pager.rightToLeft}}
+        {{?it.pagination.prev}}
+        <a class="toRightButton toolbarLink internalLink" rel="prev" href="{{=it.pagination.prev.url}}"><img class="iconToolbar" src="{{=it.initial.config.adapter.translatePath('static/basic/css/next-mob.png')}}" alt="Previous Page" /></a>
+        {{?}}
+        {{??}}
+        {{?it.pagination.next}}
+        <a class="toRightButton toolbarLink internalLink" rel="next" href="{{=it.pagination.next.url}}"><img class="iconToolbar" src="{{=it.initial.config.adapter.translatePath('static/basic/css/next-mob.png')}}" alt="Next Page" /></a>
+        {{?}}
+        {{?}}
+    </div>
+    {{?it.pagination.current.url}}
+    <div id="pageContainer" class="pageContainer" style="width: {{=it.pageWidth}}px; height: {{=it.pageHeight}}px; margin: 40px 0 0 -297px; position: relative; background-size: {{=it.pageModel.getProperty('pageResize') === 'FILL'?'cover':'contain'}}; background-position: center center; background-repeat: no-repeat; background-color:{{=it.pageModel.getProperty('backgroundColor')}}; background-image: {{?it.pageModel.getProperty("textLayer")}} url('{{=it.pageModel.getTextLayerUrl()}}'), {{?}}url('{{=it.pageModel.getSubstrateUrl()}}');">
+    {{?it.content}}
+    {{~it.content :content:index}}
+    {{?content.type === "link"}}
+    <a href="{{=content.url}}" style="cursor: pointer; position: absolute; z-index:{{=content.zIndex}}; width: {{=content.width}}; height: {{=content.height}}; left: {{=content.left}}; top: {{=content.top}};"></a>
+    {{??content.type === "image"}}
+    <div class="imageItem" id="{{=content.guid}}" style="cursor: pointer; position: absolute; z-index:{{=content.zIndex}}; width: {{=content.width}}; height: {{=content.height}}; left: {{=content.left}}; top: {{=content.top}}; {{?content.previewUrl}}background:url('{{=content.previewUrl}}') center center no-repeat; background-size:cover;{{?}}"></div>
+
+    {{??content.type === "video"}}
+    <div class="videoItem" id="{{=content.guid}}" style="cursor: pointer; position: absolute; z-index:{{=content.zIndex}}; width: {{=content.width}}; height: {{=content.height}}; left: {{=content.left}}; top: {{=content.top}}; {{?content.previewUrl}}background:url('{{=content.previewUrl}}') center center no-repeat; background-size:cover;{{??}}background-color: #000000; {{?}}">
+        <img class="play" alt="Play Video" src="{{=it.initial.config.adapter.translatePath('static/basic/css/videoIcon.png')}}" style="width: {{=content.playWidth}}; height: {{=content.playHeight}}; margin-left: -{{=content['margin-left']}};; margin-top: -{{=content['margin-top']}};">
+    </div>
+    {{?}}
+    {{~}}
+    {{?}}
+</div>
+{{?? it.tocEnabled && it.toc}}
+<div id="pageContainer" class="pageContainer" style="width: {{=it.pageWidth}}px; margin: 40px 0 0 -{{=it.pageWidth / 2}}px; background-color:#ffffff;">
+    <h2 id="tocTitle" class="tocTitle">&nbsp;</h2>
+    <hr class="titleHR" />
+    <br>
+    {{~it.toc :item:index}}
+    <table class="tocTable" style="margin-left: {{=Math.min(item.level,3)}}em;">
+        <tr>
+            <td class="tocItemDots">
+                <hr class="dotsHR" />
+                <span class="tocItemTitle">
+                    <a class="internalLink" title="{{=item.title}}" href="{{=it.initial.config.adapter.baseUrl}}{{=it.table.getUrlHeaderById(it.table.getPageIdByIndex(item.page-1))}}/">{{=item.title}}</a>
+                </span>
+            </td>
+
+            <td class="tocItemNumber">{{=it.table.getPageCaptionById(it.table.getPageIdByIndex(item.page-1))}}</td>
+        </tr>
+    </table>
+    {{~}}
+
+</div>
+{{?}}
+<div class="footer" style="color:{{=it.initial.textColor}};">
+    {{?it.pager.rightToLeft}}
+    {{?it.pagination.last && it.pagination.current.url != it.pagination.last.url}}
+    {{?!it.pagination.next || it.pagination.next.url != it.pagination.last.url}}
+
+    <a style="color:{{=it.initial.textColor}};" rel="last" id='lastPage' class="footerNavLink internalLink" href="{{=it.pagination.last.url}}">{{=it.pagination.last.name}}</a>
+    {{?(it.pagination.after.length > 0 && ((it.pagination.last.index - it.pagination.after[it.pagination.after.length-1].index)  > 1))||(it.pagination.after.length == 0 && (it.pagination.next && (it.pagination.last.index - it.pagination.next.index) > 1))}}
+    ...
+    {{?}}
+    {{?}}
+    {{?}}
+    {{?it.pagination.last}}
+    {{~it.pagination.after :item:index}}
+    {{?item.index < it.pagination.last.index }}
+    <a style="color:{{=it.initial.textColor}};" class="footerNavLink internalLink" href="{{=item.url}}">{{=item.name}}</a>
+    {{?}}
+    {{?}}
+    {{~}}
+    {{?it.pagination.next && it.pagination.next.index > 0}}
+    <a style="color:{{=it.initial.textColor}};" rel="next" class="footerNavLink internalLink" href="{{=it.pagination.next.url}}">{{=it.pagination.next.name}}</a>
+    {{?}}
+    {{?it.pagination.current && it.pagination.current.url}}
+    <a style="color:{{=it.initial.textColor}};" class="footerNavLink internalLink currPage" href="{{=it.pagination.current.url}}">{{=it.pagination.current.name}}</a>
+    {{?}}
+    {{?it.pagination.prev}}
+    <a style="color:{{=it.initial.textColor}};" rel="prev" class="footerNavLink internalLink" href="{{=it.pagination.prev.url}}">{{=it.pagination.prev.name}}</a>
+    {{?}}
+    {{~it.pagination.before :item:index}}
+    {{?item.index > 0}}
+    <a style="color:{{=it.initial.textColor}};" class="footerNavLink internalLink" href="{{=item.url}}">{{=item.name}}</a>
+    {{?}}
+    {{~}}
+    {{?it.pagination.first && it.pagination.current.url != it.pagination.first.url}}
+    {{?!it.pagination.prev || it.pagination.prev.url != it.pagination.first.url}}
+    {{?(it.pagination.before.length > 0 && it.pagination.before[0].index > 1)||(it.pagination.before.length == 0 && it.pagination.prev && it.pagination.prev.index > 1) }}
+    ...
+    {{?}}
+    <a style="color:{{=it.initial.textColor}};" rel="first" id='firstPage' class="footerNavLink internalLink" href="{{=it.pagination.first.url}}">{{=it.pagination.first.name}}</a>
+    {{?}}
+    {{?}}
+    {{??}}
+    {{?it.pagination.first && it.pagination.current.url != it.pagination.first.url}}
+    {{?!it.pagination.prev || it.pagination.prev.url != it.pagination.first.url}}
+    <a style="color:{{=it.initial.textColor}};" rel="first" id='firstPage' class="footerNavLink internalLink" href="{{=it.pagination.first.url}}">{{=it.pagination.first.name}}</a>
+    {{?(it.pagination.before.length > 0 && it.pagination.before[0].index > 1)||(it.pagination.before.length == 0 && it.pagination.prev && it.pagination.prev.index > 1) }}
+    ...
+    {{?}}
+    {{?}}
+    {{?}}
+    {{~it.pagination.before :item:index}}
+    {{?item.index > 0}}
+    <a style="color:{{=it.initial.textColor}};" class="footerNavLink internalLink" href="{{=item.url}}">{{=item.name}}</a>
+    {{?}}
+    {{~}}
+    {{?it.pagination.prev}}
+    <a style="color:{{=it.initial.textColor}};" rel="prev" class="footerNavLink internalLink" href="{{=it.pagination.prev.url}}">{{=it.pagination.prev.name}}</a>
+    {{?}}
+    {{?it.pagination.current && it.pagination.current.url}}
+    <a style="color:{{=it.initial.textColor}};" class="footerNavLink internalLink currPage" href="{{=it.pagination.current.url}}">{{=it.pagination.current.name}}</a>
+    {{?}}
+    {{?it.pagination.next && it.pagination.next.index > 0}}
+    <a style="color:{{=it.initial.textColor}};" rel="next" class="footerNavLink internalLink" href="{{=it.pagination.next.url}}">{{=it.pagination.next.name}}</a>
+    {{?}}
+    {{?it.pagination.last}}
+    {{~it.pagination.after :item:index}}
+    {{?item.index < it.pagination.last.index }}
+    <a style="color:{{=it.initial.textColor}};" class="footerNavLink internalLink" href="{{=item.url}}">{{=item.name}}</a>
+    {{?}}
+    {{~}}
+    {{?}}
+    {{?it.pagination.last && it.pagination.current.url != it.pagination.last.url}}
+    {{?!it.pagination.next || it.pagination.next.url != it.pagination.last.url}}
+    {{?(it.pagination.after.length > 0 && ((it.pagination.last.index - it.pagination.after[it.pagination.after.length-1].index)  > 1))||(it.pagination.after.length == 0 && (it.pagination.next && (it.pagination.last.index - it.pagination.next.index) > 1))}}
+    ...
+    {{?}}
+    <a style="color:{{=it.initial.textColor}};" rel="last" id='lastPage' class="footerNavLink internalLink" href="{{=it.pagination.last.url}}">{{=it.pagination.last.name}}</a>
+    {{?}}
+    {{?}}
+    {{?}}
+    <!--{{?it.workspace.components && it.workspace.components.copyright && it.workspace.components.copyright.enabled}}
+    <a style="color:{{=it.initial.textColor}};" class="footerLink" href="{{=it.workspace.components.copyright.url}}" target="{{=it.workspace.components.copyright.target}}">
+        {{=it.workspace.components.copyright.label}}
+    </a>
+    {{?}}-->
+
+</div>
+</div>
